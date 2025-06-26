@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from "react";
-const EventForm=({selectedDate,onclose,onSave})=>{
+const EventForm=({selectedDate,onclose,onSave,editingEvent})=>{
     const [title,setTitle]=useState('');
     const [time,setTime]=useState('');
     const [description,setDesciption]=useState('');
@@ -7,18 +7,25 @@ const EventForm=({selectedDate,onclose,onSave})=>{
     const [category,setCategory]=useState('');
 
     useEffect(()=>{
-        if(selectedDate){
+        if(editingEvent){
+             setTitle(editingEvent.title);
+            setTime(editingEvent.time);
+            setDesciption(editingEvent.description);
+            setReccurance(editingEvent.reccurance);
+            setCategory(editingEvent.category);
+        }
+        else{
             setTitle('');
             setTime('');
             setDesciption('');
             setReccurance('');
             setCategory('');
         }
-    },[selectedDate]);
+    },[selectedDate,editingEvent]);
     const handleSubmit=(e)=>{
         e.preventDefault();
         const event={
-            id:Date.now(),
+            id:editingEvent?editingEvent.id :Date.now(),
             title,
             time,
             description,

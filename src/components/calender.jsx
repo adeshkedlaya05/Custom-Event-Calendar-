@@ -11,6 +11,7 @@ const MonthlyView=()=>{
     const[selectedDate,setSelectedDate]=useState(null);
     const[showForm,setShowForm]=useState(false);
     const [showConflictDialog,setShowConflictDialog]=useState(false);
+    const [editingEvent,setEditingEvent]=useState(null);
     useEffect(()=>{
         localStorage.setItem('calenderEvents',JSON.stringify(events));
     },[events]);
@@ -31,14 +32,18 @@ const MonthlyView=()=>{
     const Today=(date)=>moment().isSame(date,'day');
      const handleSaveEvent = (event)=>  {
                 const conflict =events.find(
-                    (e)=> e.date === event.date && e.time=== event.time);
+                    (e)=> e.date === event.date && e.time=== event.time && e.id!=event.id);
                     if (conflict){
                         setShowConflictDialog(true);
                         return;
                     }
-                    setEvents([...events,event]
-
-                    ); 
+                    if(editingEvent){
+                        setEvents(events.map((e)=>(e.id === editingEvent.id?event:e)));
+                        setEditingEvent(null);
+                    }else{
+                         setEvents([...events,event]); 
+                    }
+                   
             }
         const handleDeleteEvent=(id)=>{
             const updatedEvents = events.filter(event => event.id!==id);
@@ -116,7 +121,11 @@ const MonthlyView=()=>{
                                                 {event.title}
                                             </span>
                                             <span>
-                                                <i className="bi bi-pencil me-1" style={{cursor:'pointer'}}></i>
+                                                <i className="bi bi-pencil me-1" style={{cursor:'pointer'}} onClick={()=>{
+                                                    setEditingEvent(event);
+                                                    setSelectedDate(moment(event.date));
+                                                    setShowForm(true);
+                                                }}></i>
                                                 <i className="bi bi-trash me-1" style={{cursor:'pointer'}} onClick={()=>handleDeleteEvent(event.id)}></i>
                                             </span>
                                             </div>
@@ -127,17 +136,8 @@ const MonthlyView=()=>{
                     })}
               </div>
             ))}
-            {showForm && selectedDate && (
-            <div 
-                className="position-absolute bg-white border rounded shadow p-3"
-                style={{top:'100px',left:'50%',transform:'translate(50%,1000%)',zIndex:999}}
-                onMouseLeave={()=>setShowForm(false)}
-                >
-                <EventForm selectedDate={selectedDate}
-                onSave={handleSaveEvent}
-                onclose={()=>setShowForm(false)}/>
-                </div>
-        )}
+          
+        
         {
             showConflictDialog && (
                 <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{backgroundColor:'rgba(0,0,0,0.5)'}}>
@@ -161,6 +161,28 @@ const MonthlyView=()=>{
                     </div>
                    </div> 
             )
+        }
+        {showForm && selectedDate && (
+            <div 
+                className="position-absolute bg-white border rounded shadow p-3"
+                style={{top: '100px',left:'50%',transform:'translate (50%,1000%)',zIndex:999}}
+                onMouseLeave={()=>{
+                    setShowForm(false);
+                    setEditingEvent(null);
+                }}
+                >
+                    <EventForm
+                        selectedDate={selectedDate}
+                        onSave={handleSaveEvent}
+                        onclose={()=>{
+                            setShowForm(false);
+                            setEditingEvent(null)
+                        }}
+                        editingEvent={editingEvent}
+                        />
+                    </div>
+        )
+
         }
            
         </div>
