@@ -1,6 +1,7 @@
-import React,{useEffect, useState} from 'react';
+import React,{useEffect, useState,useRef} from 'react';
 import moment from 'moment';
 import EventForm from './Eventform';
+import { enableDrag } from '../utils/drag';
 
 const MonthlyView=()=>{
     const[CurrentMonth,SetCurrentMonth]=useState(moment());
@@ -8,6 +9,9 @@ const MonthlyView=()=>{
         const saved=localStorage.getItem('calenderEvents');
         return saved?JSON.parse(saved):[];
     });
+    useEffect(()=>{
+        enableDrag(setEvents,events,CurrentMonth);
+    },[events,CurrentMonth]);
     const[selectedDate,setSelectedDate]=useState(null);
     const[showForm,setShowForm]=useState(false);
     const [showConflictDialog,setShowConflictDialog]=useState(false);
@@ -94,14 +98,15 @@ const MonthlyView=()=>{
                         return(
                             <div
                                 key={date.format('YYYY-MM-DD')} 
+                                data-date={date.format('YYYY-MM-DD')}
                                 onDoubleClick={()=>{
                                     setSelectedDate(date);
                                     setShowForm(true);
                                 }}
-                                className="col border border-dark p-2 d-flex flex-column align-items-start justify-content-start position-relative"
+                                className="calender-cell col border border-dark p-2 d-flex flex-column align-items-start justify-content-start position-relative"
+                               
                                 style={{minHeight:'100px',padding:'6px',flex:1}}
                                 >
-
                                     {isCurrentMonth? (<span
                                         className={` px-2 py-1 rounded ${Today(date)? 'bg-warning text-white fw-bold':isCurrentMonth? 'text-dark':'text-muted'}`}
                                             style={{border:'none',boxShadow:'none' }}
@@ -115,7 +120,9 @@ const MonthlyView=()=>{
                                         .map((event)=>(
                                             <div
                                                 key={event.id}
-                                                className={`small d-flex justify-content-between align-items-center mb-1 px-1 py-1 rounded text-white bg-${getCategoryColor(event.category)}`}
+                                                className={`small draggable-event d-flex justify-content-between align-items-center mb-1 px-1 py-1 rounded text-white bg-${getCategoryColor(event.category)}`}
+                                                data-id={event.id}
+                                                data-date={date.format('YYYY-MM-DD')}
                                                 >
                                             <span className="text-truncate" style={{maxWidth:'75%'}}>
                                                 {event.title}
@@ -165,7 +172,7 @@ const MonthlyView=()=>{
         {showForm && selectedDate && (
             <div 
                 className="position-absolute bg-white border rounded shadow p-3"
-                style={{top: '100px',left:'50%',transform:'translate (50%,1000%)',zIndex:999}}
+                style={{top: '100px',left:'50%',transform:'translate(50%,1000%)',zIndex:999}}
                 onMouseLeave={()=>{
                     setShowForm(false);
                     setEditingEvent(null);

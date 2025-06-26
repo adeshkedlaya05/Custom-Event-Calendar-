@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.draggable-event {
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+  position: relative;
+  z-index: 10;
+}
+
+.drop-active {
+  outline: 2px dashed #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.drop-target {
+  background-color: rgba(0, 123, 255, 0.15);
+}
+
+.can-drop {
+  opacity: 0.9;
+}
+[data-date].drop-hover {
+  outline: 2px dashed #007bff;
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
