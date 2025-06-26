@@ -30,7 +30,6 @@ const MonthlyView=()=>{
     }
     const Today=(date)=>moment().isSame(date,'day');
      const handleSaveEvent = (event)=>  {
-        console.log("Saving event with category:", event.category);
                 const conflict =events.find(
                     (e)=> e.date === event.date && e.time=== event.time);
                     if (conflict){
@@ -41,8 +40,11 @@ const MonthlyView=()=>{
 
                     ); 
             }
+        const handleDeleteEvent=(id)=>{
+            const updatedEvents = events.filter(event => event.id!==id);
+            setEvents(updatedEvents);    
+        }
         const getCategoryColor =(category='')=>{
-            console.log("Getting color for:", category);
             switch(category?.toLowerCase().trim()){
                 case 'personal':return 'danger';
                 case 'work':return 'primary';
@@ -115,7 +117,7 @@ const MonthlyView=()=>{
                                             </span>
                                             <span>
                                                 <i className="bi bi-pencil me-1" style={{cursor:'pointer'}}></i>
-                                                <i className="bi bi-trash me-1" style={{cursor:'pointer'}}></i>
+                                                <i className="bi bi-trash me-1" style={{cursor:'pointer'}} onClick={()=>handleDeleteEvent(event.id)}></i>
                                             </span>
                                             </div>
                                         ))}
