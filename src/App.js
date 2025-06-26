@@ -1,9 +1,14 @@
 import React from 'react';
 import NavBar from './components/navbar';
+import MonthlyView from './components/calender';
 
 function App() {
   return (
-    <div><NavBar /></div>
+    <div>
+      <NavBar />
+      <MonthlyView />
+    </div>
+    
   );
 }
 
