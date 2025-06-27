@@ -23,7 +23,7 @@ const MonthlyView = ({ events, setEvents }) => {
 
   useEffect(() => {
     enableDrag(setEvents, events, CurrentMonth, setModifiedInstances, modifiedInstances);
-  }, [events, CurrentMonth, modifiedInstances]);
+  }, [setEvents,events, CurrentMonth, modifiedInstances]);
 
   const allEvents = events
     .flatMap(e => genrateReccuringEvents(e))
