@@ -9,17 +9,7 @@ const navbar = () => {
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                View
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Monthly</a></li>
-                <li><a class="dropdown-item" href="#">Weekly</a></li>
-              </ul>
-            </li>
-          </ul>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
           <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
             <button class="btn btn-outline-light" type="submit">Search</button>

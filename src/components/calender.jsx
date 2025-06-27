@@ -2,16 +2,38 @@ import React,{useEffect, useState,useRef} from 'react';
 import moment from 'moment';
 import EventForm from './Eventform';
 import { enableDrag } from '../utils/drag';
+import { genrateReccuringEvents } from '../utils/reccurance';
 
 const MonthlyView=()=>{
+    const [modifiedInstances, setModifiedInstances] = useState(() => {
+  const saved = localStorage.getItem('modifiedInstances');
+  return saved ? JSON.parse(saved) : [];
+});
+useEffect(() => {
+  localStorage.setItem('modifiedInstances', JSON.stringify(modifiedInstances));
+}, [modifiedInstances]);
     const[CurrentMonth,SetCurrentMonth]=useState(moment());
     const [events,setEvents]=useState(()=>{
         const saved=localStorage.getItem('calenderEvents');
         return saved?JSON.parse(saved):[];
     });
-    useEffect(()=>{
-        enableDrag(setEvents,events,CurrentMonth);
-    },[events,CurrentMonth]);
+    const [deletedInstanceIds, setDeletedInstanceIds] = useState(() => {
+  const saved = localStorage.getItem('deletedInstanceIds');
+  return saved ? JSON.parse(saved) : [];
+});
+
+useEffect(() => {
+  enableDrag(setEvents, events, CurrentMonth, setModifiedInstances, modifiedInstances);
+}, [events, CurrentMonth, modifiedInstances]);
+
+   const allEvents = events
+  .flatMap(e => genrateReccuringEvents(e))
+  .filter(e => !deletedInstanceIds.includes(e.id))
+  .map(e => {
+    const modified = modifiedInstances.find(m => m.id === e.id);
+    return modified ? modified : e;
+  });
+
     const[selectedDate,setSelectedDate]=useState(null);
     const[showForm,setShowForm]=useState(false);
     const [showConflictDialog,setShowConflictDialog]=useState(false);
@@ -19,6 +41,10 @@ const MonthlyView=()=>{
     useEffect(()=>{
         localStorage.setItem('calenderEvents',JSON.stringify(events));
     },[events]);
+    useEffect(() => {
+  localStorage.setItem('deletedInstanceIds', JSON.stringify(deletedInstanceIds));
+}, [deletedInstanceIds]);
+
     const Start=CurrentMonth.clone().startOf('month');
     const Calenderstart=Start.clone().startOf('week');  
     const days=[];
@@ -34,25 +60,58 @@ const MonthlyView=()=>{
         weeks.push(days.slice(i,i+7));
     }
     const Today=(date)=>moment().isSame(date,'day');
-     const handleSaveEvent = (event)=>  {
-                const conflict =events.find(
-                    (e)=> e.date === event.date && e.time=== event.time && e.id!=event.id);
-                    if (conflict){
-                        setShowConflictDialog(true);
-                        return;
-                    }
-                    if(editingEvent){
-                        setEvents(events.map((e)=>(e.id === editingEvent.id?event:e)));
-                        setEditingEvent(null);
-                    }else{
-                         setEvents([...events,event]); 
-                    }
-                   
-            }
-        const handleDeleteEvent=(id)=>{
-            const updatedEvents = events.filter(event => event.id!==id);
-            setEvents(updatedEvents);    
-        }
+    const handleSaveEvent = (event) => {
+  const newEvents = genrateReccuringEvents(event);
+
+  const hasConflict = newEvents.some(newEvent =>
+    events.some(existing =>
+      existing.date === newEvent.date &&
+      existing.time === newEvent.time &&
+      existing.id !== newEvent.id
+    )
+  );
+
+  if (hasConflict) {
+    setShowConflictDialog(true);
+    return;
+  }
+
+  const conflict = events.find(
+    (e) => e.date === event.date && e.time === event.time && e.id !== event.id
+  );
+
+  if (conflict) {
+    setShowConflictDialog(true);
+    return;
+  }
+
+
+  if (editingEvent && String(editingEvent.id).includes('-')) {
+    setModifiedInstances(prev => {
+      const filtered = prev.filter(e => e.id !== event.id);
+      return [...filtered, event];
+    });
+  } else if (editingEvent) {
+    setEvents(events.map(e => (e.id === editingEvent.id ? event : e)));
+    setEditingEvent(null);
+  } else {
+    setEvents([...events, event]);
+  }
+};
+
+         const handleDeleteEvent = (id) => {
+                if (!id) return;
+
+                const stringId = String(id);
+            if (stringId.includes('-')) {
+                setDeletedInstanceIds(prev => [...prev, stringId]);
+            } else {
+            const updatedEvents = events.filter(event => event.id !== id);
+            setEvents(updatedEvents);
+         }
+        };
+
+
         const getCategoryColor =(category='')=>{
             switch(category?.toLowerCase().trim()){
                 case 'personal':return 'danger';
@@ -115,7 +174,7 @@ const MonthlyView=()=>{
                                         </span>
                                     ) : ('')}
                                     <div className="w-100 mt-2 overflow-auto" style={{maxHeight:'60px'}}>
-                                        {events
+                                        {allEvents
                                         .filter((event)=>event.date===date.format('YYYY-MM-DD'))
                                         .map((event)=>(
                                             <div

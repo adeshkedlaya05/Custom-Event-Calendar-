@@ -5,6 +5,9 @@ const EventForm=({selectedDate,onclose,onSave,editingEvent})=>{
     const [description,setDesciption]=useState('');
     const [reccurance,setReccurance]=useState('');
     const [category,setCategory]=useState('');
+    const [weeklyDays,setWeeklyDays]=useState([]);
+    const [customInterval,setCustomInterval]=useState('');
+    const [count,setCount]=useState('');
 
     useEffect(()=>{
         if(editingEvent){
@@ -13,6 +16,9 @@ const EventForm=({selectedDate,onclose,onSave,editingEvent})=>{
             setDesciption(editingEvent.description);
             setReccurance(editingEvent.reccurance);
             setCategory(editingEvent.category);
+            setWeeklyDays(editingEvent.weeklyDays || []);
+            setCustomInterval(editingEvent.customInterval || '');
+            setCount(editingEvent.count || '');
         }
         else{
             setTitle('');
@@ -22,6 +28,12 @@ const EventForm=({selectedDate,onclose,onSave,editingEvent})=>{
             setCategory('');
         }
     },[selectedDate,editingEvent]);
+    const handleWeeklyCheckBox =(e)=>{
+        const value=e.target.value;
+        setWeeklyDays((prev=>
+        e.target.checked ? [...prev,value]:prev.filter((day)=>day!==value))
+        );
+    };
     const handleSubmit=(e)=>{
         e.preventDefault();
         const event={
@@ -32,6 +44,9 @@ const EventForm=({selectedDate,onclose,onSave,editingEvent})=>{
             reccurance,
             category:category.trim().toLowerCase(),
             date:selectedDate.format('YYYY-MM-DD'),
+            weeklyDays,
+            customInterval,
+            count:Number(count),
         };
         onSave(event)
         onclose();
@@ -51,6 +66,19 @@ const EventForm=({selectedDate,onclose,onSave,editingEvent})=>{
                 <option value="monthly">Monthly</option>
                 <option value="custom">Custom</option>
                 </select>
+                {reccurance==='weekly' && (
+                    <div className="mb-2">
+                        {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(day=>(
+                            <label key={day} className="me-2">
+                                <input type="checkbox" value={day} onChange={handleWeeklyCheckBox}/>{day}
+                            </label>
+                        ))}
+                    </div>
+                )}
+                {reccurance==='custom' && (
+                    <input type="number" className="form-control mb-2" placeholder="Every N days" onChange={(e)=>setCustomInterval(e.target.value)}/>
+                )}
+                 <input type="number" className="form-control mb-2" placeholder="How many occurances" onChange={(e)=>setCount(e.target.value)}/>
                 <select className="form-control mb-3" value={category} onChange={(e)=>setCategory(e.target.value)}>
                 <option value="personal">Personal</option>
                 <option value="work">Work</option>
@@ -58,7 +86,7 @@ const EventForm=({selectedDate,onclose,onSave,editingEvent})=>{
                 </select>
                 <div className="d-flex justify-content-between">
                     <button type="submit" className="btn btn-success">Save</button>
-                    <button type="submit" className="btn btn-secondary" onClick={onclose}>Cancel</button>
+                    <button type="button" className="btn btn-secondary" onClick={onclose}>Cancel</button>
                 </div>
             </form>
         </div>
