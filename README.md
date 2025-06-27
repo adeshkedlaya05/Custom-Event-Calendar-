@@ -53,13 +53,13 @@ Supports:
 ---
 
 ### 5. Event Conflict Management
-- Detects time conflicts when creating or dragging events.
+- Detects time conflicts when creating or dragging events.(prevents overlap on drag via single-event-per-day display)
 - Displays a modal dialog warning the user about overlapping events.
 - Prevents accidental double-booking.
 
 ---
 
-### 6. Event Filtering & Search (Optional)
+### 6. Event Filtering & Search 
 - Dynamic search bar :.
   - Instantly updates the calendar view with matching results.
 - Filter dropdown for **Personal**, **Work**, and **Health** categories.
