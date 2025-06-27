@@ -36,7 +36,7 @@ export default function SearchBar({ events, onFilter }) {
       <input
         className="form-control me-2"
         type="search"
-        placeholder="Search by title or description"
+        placeholder="Search"
         aria-label="Search"
         value={query}
         onChange={handleSearch}

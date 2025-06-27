@@ -5,7 +5,10 @@ const Navbar = ({ events, onFilter }) => {
   return (
     <nav className="navbar navbar-expand-lg bg-primary text-white">
       <div className="container-fluid">
-        <a className="navbar-brand text-white" href="#">Custom Event Calender</a>
+        <a className="navbar-brand text-white" href="#">
+          <img src="calender icon.png" alt="Calendar Icon" width="30" height="30" className="me-2"/>
+          Custom Event Calender
+        </a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
           aria-expanded="false" aria-label="Toggle navigation">
@@ -13,8 +16,6 @@ const Navbar = ({ events, onFilter }) => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
-
-          {/* Connected SearchBar */}
           <SearchBar events={events} onFilter={onFilter} />
         </div>
       </div>
