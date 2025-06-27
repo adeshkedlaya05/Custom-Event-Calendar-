@@ -60,8 +60,7 @@ Supports:
 ---
 
 ### 6. Event Filtering & Search (Optional)
-- Dynamic search bar to:
-  - Filter events by **title**, **description**, or **category**.
+- Dynamic search bar :.
   - Instantly updates the calendar view with matching results.
 - Filter dropdown for **Personal**, **Work**, and **Health** categories.
 
@@ -88,6 +87,7 @@ Supports:
 
 1. **Clone the Repository**
    ```bash
+   git clone https://github.com/adeshkedlaya05/Custom-Event-Calendar-.git
    
    cd custom-event-calendar
    ```
@@ -111,7 +111,12 @@ Supports:
 
 ## 📸 Screenshots
 
-_Add screenshots of your app UI here (optional)_
+![Screenshot 2025-06-27 123609](https://github.com/user-attachments/assets/8fab46bf-5eca-48f5-96bd-47782e710400)
+
+
+
+![Screenshot 2025-06-27 123918](https://github.com/user-attachments/assets/bc9d6e8e-dfdc-4cc9-9fc6-b686662fbc86)
+
 
 ---
 
