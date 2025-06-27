@@ -1,70 +1,118 @@
-# Getting Started with Create React App
+# 📅 Custom Event Calendar
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-featured React calendar application that supports event creation, editing, deletion, recurrence, drag-and-drop scheduling, filtering, and persistent storage. Built with **React**, **Bootstrap**, and **Moment.js**.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+### 1. Monthly View Calendar
+- Traditional monthly grid layout.
+- Highlights the current day.
+- Buttons to navigate to previous or next months.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 2. Event Management
 
-### `npm test`
+#### ➕ Add Event
+- Click on a specific date to open the event creation form.
+- Form includes:
+  - **Event Title**
+  - **Date & Time** (with native time picker)
+  - **Description**
+  - **Recurrence Options** (Daily, Weekly, Monthly, Custom)
+  - **Event Category** (Personal, Work, Health)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### ✏️ Edit Event
+- Click on any existing event to open the edit form.
+- Modify all details and save changes.
 
-### `npm run build`
+#### ❌ Delete Event
+- Delete directly from the event card or within the form.
+- Deletes single or recurring instance appropriately.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 3. Recurring Events
+Supports:
+- **Daily**: Repeats every day.
+- **Weekly**: Repeats on selected weekdays.
+- **Monthly**: Repeats on a specific day each month.
+- **Custom**: Repeat every N days.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+> Recurring events are expanded and displayed within the current calendar view range only.
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 4. Drag-and-Drop Rescheduling
+- Events are **draggable** between calendar cells using `interact.js`.
+- Automatically updates the event's date upon drop.
+- Validates against conflicts when dropping on an occupied date/time slot.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 5. Event Conflict Management
+- Detects time conflicts when creating or dragging events.
+- Displays a modal dialog warning the user about overlapping events.
+- Prevents accidental double-booking.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+### 6. Event Filtering & Search (Optional)
+- Dynamic search bar to:
+  - Filter events by **title**, **description**, or **category**.
+  - Instantly updates the calendar view with matching results.
+- Filter dropdown for **Personal**, **Work**, and **Health** categories.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 7. Event Persistence
+- Events, modified instances, and deleted occurrences are saved to **Local Storage**.
+- No backend or login required.
+- Data is preserved across refreshes, tab closures, or device restarts.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🛠️ Tech Stack
 
-### Analyzing the Bundle Size
+- **React** (Frontend UI)
+- **Bootstrap 5** (Styling and layout)
+- **Moment.js** (Date manipulation)
+- **Interact.js** (Drag-and-drop functionality)
+- **LocalStorage** (Persistent data)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## 💻 Run Locally on Your PC
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. **Clone the Repository**
+   ```bash
+   
+   cd custom-event-calendar
+   ```
 
-### Advanced Configuration
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+3. **Start the App**
+   ```bash
+   npm start
+   ```
 
-### Deployment
+4. **Open in Browser**
+   - Visit: [http://localhost:3000](http://localhost:3000)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+> Make sure you have **Node.js** and **npm** installed before running the commands.
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 📸 Screenshots
+
+_Add screenshots of your app UI here (optional)_
+
+---
+
+
