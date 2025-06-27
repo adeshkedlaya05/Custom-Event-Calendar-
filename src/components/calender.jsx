@@ -4,7 +4,7 @@ import EventForm from './Eventform';
 import { enableDrag } from '../utils/drag';
 import { genrateReccuringEvents } from '../utils/reccurance';
 
-const MonthlyView=()=>{
+const MonthlyView=({events,setEvents})=>{
     const [modifiedInstances, setModifiedInstances] = useState(() => {
   const saved = localStorage.getItem('modifiedInstances');
   return saved ? JSON.parse(saved) : [];
@@ -13,10 +13,6 @@ useEffect(() => {
   localStorage.setItem('modifiedInstances', JSON.stringify(modifiedInstances));
 }, [modifiedInstances]);
     const[CurrentMonth,SetCurrentMonth]=useState(moment());
-    const [events,setEvents]=useState(()=>{
-        const saved=localStorage.getItem('calenderEvents');
-        return saved?JSON.parse(saved):[];
-    });
     const [deletedInstanceIds, setDeletedInstanceIds] = useState(() => {
   const saved = localStorage.getItem('deletedInstanceIds');
   return saved ? JSON.parse(saved) : [];
