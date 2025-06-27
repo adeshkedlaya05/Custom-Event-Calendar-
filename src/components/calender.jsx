@@ -19,7 +19,7 @@ const MonthlyView = ({ events, setEvents }) => {
     return saved ? JSON.parse(saved) : [];
   });
 
-  const [previewEvent, setPreviewEvent] = useState(null); // ✅ Preview state
+  const [previewEvent, setPreviewEvent] = useState(null); 
 
   useEffect(() => {
     enableDrag(setEvents, events, CurrentMonth, setModifiedInstances, modifiedInstances);
@@ -63,6 +63,7 @@ const MonthlyView = ({ events, setEvents }) => {
 
   const Today = (date) => moment().isSame(date, 'day');
 
+  // Handles save/edit/update logic with conflict detection and 
   const handleSaveEvent = (event) => {
     const newEvents = genrateReccuringEvents(event);
     const hasConflict = newEvents.some(newEvent =>
@@ -99,7 +100,7 @@ const MonthlyView = ({ events, setEvents }) => {
       setEvents([...events, event]);
     }
   };
-
+// Delete function 
   const handleDeleteEvent = (id) => {
     if (!id) return;
     const stringId = String(id);
@@ -145,7 +146,7 @@ const MonthlyView = ({ events, setEvents }) => {
           </div>
         ))}
       </div>
-
+       {/* Calendar grid */}
       {weeks.map((week, i) => (
         <div className="row text-center py-2" key={i}>
           {week.map((date) => {
@@ -218,7 +219,7 @@ const MonthlyView = ({ events, setEvents }) => {
           })}
         </div>
       ))}
-
+      {/* Event preview popup on single click */}
       {previewEvent && (
         <div
           className="position-absolute bg-light border rounded shadow p-2"
@@ -238,7 +239,7 @@ const MonthlyView = ({ events, setEvents }) => {
           <div><strong>Category:</strong> {previewEvent.category}</div>
         </div>
       )}
-
+       {/* Conflict popup modal */}
       {showConflictDialog && (
         <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <div className="modal-dialog modal-dialog-centered" role="document">
@@ -261,7 +262,7 @@ const MonthlyView = ({ events, setEvents }) => {
           </div>
         </div>
       )}
-
+      {/* Event creation/editing form */}
       {showForm && selectedDate && (
         <div
           className="position-absolute bg-white border rounded shadow p-3"

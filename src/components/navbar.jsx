@@ -3,21 +3,14 @@ import SearchBar from './searchBar';
 
 const Navbar = ({ events, onFilter }) => {
   return (
-    <nav className="navbar navbar-expand-lg bg-primary text-white">
-      <div className="container-fluid">
-        <a className="navbar-brand text-white" href="#">
-          <img src="calender icon.png" alt="Calendar Icon" width="30" height="30" className="me-2"/>
+    <nav className="navbar bg-primary text-white">
+      <div className="container-fluid d-flex justify-content-between align-items-center">
+        <a className="navbar-brand text-white d-flex align-items-center" href="#">
+          <img src="calender icon.png" alt="Calendar Icon" width="30" height="30" className="me-2" />
           Custom Event Calender
         </a>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-          aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
-          <SearchBar events={events} onFilter={onFilter} />
-        </div>
+         {/* SearchBar component */}
+        <SearchBar events={events} onFilter={onFilter} />
       </div>
     </nav>
   );

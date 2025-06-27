@@ -8,7 +8,7 @@ const EventForm=({selectedDate,onclose,onSave,editingEvent})=>{
     const [weeklyDays,setWeeklyDays]=useState([]);
     const [customInterval,setCustomInterval]=useState('');
     const [count,setCount]=useState('');
-
+    // Load event data into form if editing, else reset form
     useEffect(()=>{
         if(editingEvent){
              setTitle(editingEvent.title);
@@ -60,6 +60,7 @@ const EventForm=({selectedDate,onclose,onSave,editingEvent})=>{
                 <input type="time" className="form-control mb-2" value={time} onChange={(e)=>setTime(e.target.value)} required/>
                 <textarea className="form-control mb-2"placeholder="Description" value={description} onChange={(e)=>setDesciption(e.target.value)} required/>
                 <select className="form-control mb-2" value={reccurance}  onChange={(e)=>setReccurance(e.target.value)}> 
+                {/* Recurrence options */}
                 <option value="">No Reccurance</option>
                 <option value="daily">Daily</option>
                 <option value="weekly">Weekly</option>

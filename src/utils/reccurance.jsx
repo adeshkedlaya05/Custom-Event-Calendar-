@@ -6,11 +6,12 @@ export function genrateReccuringEvents(baseEvent) {
     const startDate=moment(baseEvent.date);
 
     if(!reccurance) return [baseEvent];
-
+    //reccurance for daily
     for(let i=0;i<count;i++){
         let newDate;
         if(reccurance ==='daily'){
             newDate=moment(startDate).add(i,'days');
+            //reccurance for weekly
         }else if (reccurance === 'weekly') {
   for (let i = 0; i < count; i++) {
     const nextDate = moment(startDate).clone().add(i * 7, 'days');
@@ -21,9 +22,10 @@ export function genrateReccuringEvents(baseEvent) {
     });
   }
   return events;
-}
+}//reccurance for monthly
 else if(reccurance==='monthly'){
             newDate=moment(startDate).add(i,'months');
+            //reccurance for custom
         }else if(reccurance==='custom'){
             const interval=parseInt(baseEvent.reccuranceInterval || '2',10);
             newDate=moment(startDate).add(i*interval,'days');
